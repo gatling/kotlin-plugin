@@ -1,6 +1,6 @@
 kotlinLib("stdlib")
 
-kotlinVersion := "1.7.10"
+kotlinVersion := "1.7.20"
 
 val listClasses = taskKey[Unit]("listClasses")
 
