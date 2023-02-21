@@ -12,8 +12,8 @@ libraryDependencies ++= Seq(
 */
 
 libraryDependencies ++= Seq(
-  "io.argonaut" %% "argonaut" % "6.2",
-  "org.scalaz" %% "scalaz-core" % "7.2.28"
+  "io.argonaut" %% "argonaut" % "6.3.8",
+  "org.scalaz" %% "scalaz-core" % "7.3.7"
 )
 
 sbtPlugin := true
