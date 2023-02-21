@@ -1,6 +1,4 @@
-# kotlin-plugin
-
-[![Build Status](https://travis-ci.org/pfn/kotlin-plugin.svg?branch=master)](https://travis-ci.org/pfn/kotlin-plugin)
+# Sbt Kotlin plugin [![Build Status](https://github.com/gatling/kotlin-plugin/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/gatling/kotlin-plugin/actions/workflows/build.yml?query=branch%3Amaster)
 
 Build kotlin code using sbt
 
