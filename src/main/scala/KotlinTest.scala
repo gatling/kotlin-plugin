@@ -24,11 +24,11 @@ object KotlinTest {
   }
 
   val kotlinTests = Def.task {
-    val out = ((target in Test).value ** "scala-*").get.head / "test-classes"
-    val srcs = ((sourceDirectory  in Test).value ** "*.kt").get.toList
+    val out = ((Test / target).value ** "scala-*").get.head / "test-classes"
+    val srcs = ((Test / sourceDirectory).value ** "*.kt").get.toList
     val xs = (out ** "*.class").get.toList
 
-    val loader = ClasspathUtilities.toLoader((fullClasspath in Test).value map {
+    val loader = ClasspathUtilities.toLoader((Test / fullClasspath).value map {
       _.data
     })
     val log = streams.value.log
@@ -55,7 +55,7 @@ object KotlinTest {
       log,
       incOptions.value,
       JarUtils.createOutputJarContent(output))._2
-    val frameworks = (loadedTestFrameworks in Test).value.values.toList
+    val frameworks = (Test / loadedTestFrameworks).value.values.toList
     log.info(s"Compiling ${srcs.length} Kotlin source to $out...")
     Tests.discover(frameworks, a0, log)._1
   }
