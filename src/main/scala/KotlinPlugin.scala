@@ -14,10 +14,6 @@ object KotlinPlugin extends AutoPlugin {
 
   override def projectConfigurations = KotlinInternal :: Nil
 
-  override def globalSettings = (onLoad := onLoad.value andThen { s =>
-    Project.runTask(Keys.Kotlin / updateCheck, s).fold(s)(_._1)
-  }) :: Nil
-
   private def kotlinScriptCompilerDeps(kotlinVer: String) = {
     import scala.math.Ordering.Implicits.infixOrderingOps
 
@@ -38,24 +34,6 @@ object KotlinPlugin extends AutoPlugin {
       "org.jetbrains.kotlin" % "kotlin-compiler-embeddable" % kotlinVersion.value % KotlinInternal.name
     ) ++ kotlinScriptCompilerDeps(kotlinVersion.value),
     KotlinInternal / managedClasspath := Classpaths.managedJars(KotlinInternal, classpathTypes.value, update.value),
-    Kotlin / updateCheck := {
-      val log = streams.value.log
-      UpdateChecker("pfn", "sbt-plugins", "kotlin-plugin") {
-        case Left(t) =>
-          log.debug("Failed to load version info: " + t)
-        case Right((versions, current)) =>
-          log.debug("available versions: " + versions)
-          log.debug("current version: " + BuildInfo.version)
-          log.debug("latest version: " + current)
-          if (versions(BuildInfo.version)) {
-            if (BuildInfo.version != current) {
-              log.warn(
-                s"UPDATE: A newer kotlin-plugin is available:" +
-                  s" $current, currently running: ${BuildInfo.version}")
-            }
-          }
-      }
-    },
     kotlinVersion := "1.3.50",
     kotlincJvmTarget := "1.8",
     kotlincOptions := Nil,
