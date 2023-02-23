@@ -4,11 +4,11 @@ import java.io.File
 import java.lang.reflect.{Field, Method}
 import java.util.jar.JarEntry
 import sbt.Keys.{Classpath, TaskStreams}
-import sbt._
-import sbt.io._
-import sbt.internal.inc.classpath.ClasspathUtilities
+import sbt.*
+import sbt.io.*
+import sbt.internal.inc.classpath.ClasspathUtil
 
-import collection.JavaConverters._
+import collection.JavaConverters.*
 import scala.math.Ordered.orderingToOrdered
 import scala.util.Try
 
@@ -76,7 +76,7 @@ object KotlinCompile {
 
 object KotlinReflection {
   def fromClasspath(cp: Classpath): KotlinReflection = {
-    val cl = ClasspathUtilities.toLoader(cp.map(_.data))
+    val cl = ClasspathUtil.toLoader(cp.map(_.data.toPath))
     val compilerClass = cl.loadClass("org.jetbrains.kotlin.cli.jvm.K2JVMCompiler")
     val servicesClass = cl.loadClass("org.jetbrains.kotlin.config.Services")
     val messageCollectorClass = cl.loadClass("org.jetbrains.kotlin.cli.common.messages.MessageCollector")
