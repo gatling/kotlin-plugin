@@ -5,6 +5,8 @@ version := "2.0.1-SNAPSHOT"
 licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 
 sbtPlugin := true
+crossSbtVersions := Seq("1.8.2", "1.4.9") // Used for checking compatibility with sbt 1.4+
+
 scalacOptions ++= Seq("-deprecation","-Xlint","-feature")
 libraryDependencies ++= Seq(
   "io.argonaut" %% "argonaut" % "6.3.8",
