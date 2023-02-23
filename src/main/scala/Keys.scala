@@ -1,6 +1,6 @@
 package kotlin
 
-import sbt._
+import sbt.*
 
 /**
  * @author pfnguyen
