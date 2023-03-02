@@ -41,8 +41,8 @@ jobs:
         id: release
         env:
           PGP_PASSPHRASE: ${{ secrets.SONATYPE_PGP_PASSPHRASE }}
-        run: sbt compile ^scripted publishSigned sonatypePrepare sonatypeBundleUpload
-        # We don't execute sonatypeRelease: the staging repository must then be closed and promoted manually
+        run: sbt compile ^scripted publishSigned sonatypePrepare sonatypeBundleUpload sonatypeClose
+        # We don't execute sonatypePromote (or sonatypeRelease): the staging repository must then be promoted manually
 
       - name: Message
         run: echo "Do NOT forget to release the staging repository on https://s01.oss.sonatype.org"
