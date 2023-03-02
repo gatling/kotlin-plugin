@@ -1,6 +1,6 @@
 name := "kotlin-plugin"
 organization := "io.gatling"
-version := "2.0.1-SNAPSHOT"
+version := "2.0.1"
 
 licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
 homepage := Some(url("https://gatling.io"))
