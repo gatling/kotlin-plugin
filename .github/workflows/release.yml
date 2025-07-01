@@ -28,7 +28,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '8'
+          java-version: '21'
 
       - name: Set up sbt
         uses: sbt/setup-sbt@v1
@@ -42,15 +42,14 @@ jobs:
           echo "$SONATYPE_SBT" > ~/.sbt/1.0/sonatype.sbt
           echo -n "$SONATYPE_PGP_SECRET" | base64 --decode | gpg --batch --import
 
-      #     - name: Cache
-      #       No cache for release! We want clean and full release!
+#     - name: Cache
+#       No cache for release! We want clean and full release!
 
       - name: Release
         id: release
         env:
           PGP_PASSPHRASE: ${{ secrets.SONATYPE_PGP_PASSPHRASE }}
-        run: sbt compile "^scripted" publishSigned sonatypePrepare sonatypeBundleUpload sonatypeClose
-        # We don't execute sonatypePromote (or sonatypeRelease): the staging repository must then be promoted manually
-
-      - name: Message
-        run: echo "Do NOT forget to release the staging repository on https://s01.oss.sonatype.org"
+        run: |
+          sbt "release with-defaults"
+          echo "version=$(cat target/release-info)" # DO NOT REMOVE, because of bad parsing for outputs
+          echo "version=$(cat target/release-info)" >> $GITHUB_OUTPUT
