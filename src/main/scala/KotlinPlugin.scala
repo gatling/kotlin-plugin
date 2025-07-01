@@ -16,7 +16,7 @@
 
 package kotlin
 
-import sbt._
+import sbt.{ Keys => _, _ }
 import sbt.Keys._
 import sbt.plugins.JvmPlugin
 
