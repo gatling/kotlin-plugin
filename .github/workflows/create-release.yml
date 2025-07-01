@@ -5,11 +5,9 @@ on:
     inputs:
       releaseType:
         description: Release type
-        default: patch-milestone
+        default: patch
         type: choice
         options:
-          - patch-milestone
-          - minor-milestone
           - patch
           - minor
         required: true
