@@ -17,11 +17,11 @@
 package sbt
 
 import sbt.Keys._
+import sbt.internal.inc._
 import sbt.internal.inc.classfile.JavaAnalyze
 import sbt.internal.inc.classpath.ClasspathUtil
-import sbt.internal.inc._
-import xsbti.compile._
 import xsbti.{ AnalysisCallback, VirtualFile, VirtualFileRef }
+import xsbti.compile._
 
 object KotlinTest {
   private object EmptyLookup extends Lookup {
