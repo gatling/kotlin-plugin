@@ -9,6 +9,7 @@ import sbt.io.*
 import sbt.internal.inc.classpath.ClasspathUtil
 
 import collection.JavaConverters.*
+import collection.mutable.ArrayBuffer
 import scala.math.Ordered.orderingToOrdered
 import scala.util.Try
 
@@ -127,8 +128,12 @@ case class KotlinStub(s: TaskStreams, kref: KotlinReflection) {
 
     import java.lang.reflect.{Proxy, InvocationHandler}
     val messageCollectorInvocationHandler = new InvocationHandler {
-      override def invoke(proxy: scala.Any, method: Method, args: Array[AnyRef]) = {
-        if (method.getName == "report") {
+      val _messages = new ArrayBuffer[String]
+      override def invoke(proxy: AnyRef, method: Method, args: Array[AnyRef]): AnyRef = {
+        if (method.getName == "hasErrors") {
+          // this is now required for some reason
+          Predef.boolean2Boolean(_messages.nonEmpty)
+        } else if (method.getName == "report") {
           val Array(severity, message, location) = args
           val l = location.asInstanceOf[CompilerMessageLocation]
           val msg = Option(l).map(x => x.getPath).fold(message.toString)(loc =>
@@ -137,11 +142,15 @@ case class KotlinStub(s: TaskStreams, kref: KotlinReflection) {
             case "INFO"                 => s.log.info(msg)
             case "WARNING"              => s.log.warn(msg)
             case "STRONG_WARNING"       => s.log.warn(msg)
-            case "ERROR"  | "EXCEPTION" => s.log.error(msg)
+            case "ERROR"  | "EXCEPTION" =>
+              s.log.error(msg)
+              _messages += msg
             case "OUTPUT" | "LOGGING"   => s.log.debug(msg)
           }
+          null
+        } else {
+          null
         }
-        null
       }
     }
 
