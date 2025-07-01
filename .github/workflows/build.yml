@@ -10,17 +10,26 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup JDK
-        uses: actions/setup-java@v3
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '8'
           cache: 'sbt'
+
+      - name: Set up sbt
+        uses: sbt/setup-sbt@v1
+
       - name: Execute sbt build
-        run: sbt ^scripted
+        run: sbt "^scripted"

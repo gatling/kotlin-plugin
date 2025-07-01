@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   release:
     if: github.repository == 'gatling/kotlin-plugin'
@@ -17,13 +21,17 @@ jobs:
       JAVA_OPTS: "-Xmx6G"
       SBT_OPTS: "-Dsbt.ci=true -Xss100M"
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Setup JDK
-        uses: actions/setup-java@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '8'
+
+      - name: Set up sbt
+        uses: sbt/setup-sbt@v1
 
       - name: Prepare environment
         env:
@@ -41,7 +49,7 @@ jobs:
         id: release
         env:
           PGP_PASSPHRASE: ${{ secrets.SONATYPE_PGP_PASSPHRASE }}
-        run: sbt compile ^scripted publishSigned sonatypePrepare sonatypeBundleUpload sonatypeClose
+        run: sbt compile "^scripted" publishSigned sonatypePrepare sonatypeBundleUpload sonatypeClose
         # We don't execute sonatypePromote (or sonatypeRelease): the staging repository must then be promoted manually
 
       - name: Message
