@@ -24,7 +24,7 @@ crossSbtVersions := Seq("1.9.0") // Used for checking compatibility with sbt 1.4
 
 scalacOptions ++= Seq("-deprecation", "-Xlint", "-feature")
 libraryDependencies ++= Seq(
-  "org.scalaz" %% "scalaz-core" % "7.3.8"
+  "org.scalaz" %% "scalaz-core" % "7.3.9"
 )
 
 enablePlugins(SbtPlugin, GatlingOssPlugin)
