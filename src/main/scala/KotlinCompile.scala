@@ -160,9 +160,9 @@ case class KotlinStub(s: TaskStreams, kref: KotlinReflection) {
           val l = location.asInstanceOf[CompilerMessageLocation]
           val msg = Option(l).map(x => x.getPath).fold(message.toString)(loc => loc + ": " + l.getLine + ", " + l.getColumn + ": " + message)
           severity.toString match {
-            case "INFO"           => s.log.info(msg)
-            case "WARNING"        => s.log.warn(msg)
-            case "STRONG_WARNING" => s.log.warn(msg)
+            case "INFO"                => s.log.info(msg)
+            case "WARNING"             => s.log.warn(msg)
+            case "STRONG_WARNING"      => s.log.warn(msg)
             case "ERROR" | "EXCEPTION" =>
               s.log.error(msg)
               _messages += msg
